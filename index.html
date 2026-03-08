@@ -297,7 +297,7 @@
     <h1>WeST Educational Apps</h1>
     <p>Interactive tools for teaching and learning</p>
   </div>
-  <span class="total-badge">&#9733; 122 apps</span>
+  <span class="total-badge">&#9733; 137 apps</span>
 </header>
 
 <div class="search-bar">
@@ -337,9 +337,27 @@ const eduApps = [
     color: '#2563eb',
     bg: '#dbeafe',
     keystages: [
-      { label: 'EYFS', apps: [] },
-      { label: 'KS1', apps: [] },
-      { label: 'KS2', apps: [] },
+      { label: 'EYFS', apps: [
+        { name: 'Counting Adventure', desc: 'Tap objects to count them one by one with animated feedback and celebrations', file: 'maths-eyfs-counting.html' },
+        { name: 'Shape Sorter', desc: 'Drag colourful 2D shapes into matching outline holes with progressive difficulty', file: 'maths-eyfs-shape-sorter.html' },
+        { name: 'Pattern Maker', desc: 'Continue repeating colour and shape patterns displayed as a necklace of beads', file: 'maths-eyfs-pattern-maker.html' },
+        { name: 'More or Fewer?', desc: 'Compare two groups of objects and identify which has more, fewer or equal', file: 'maths-eyfs-comparing-quantities.html' },
+        { name: 'Number Bonds to 10', desc: 'Fill a ten-frame to discover pairs that make 5 and 10 with animated feedback', file: 'maths-eyfs-number-bonds.html' }
+      ]},
+      { label: 'KS1', apps: [
+        { name: 'Place Value Explorer', desc: 'Drag tens rods and ones cubes onto a place value chart with automatic exchange', file: 'maths-ks1-place-value.html' },
+        { name: 'Clock Explorer', desc: 'Drag clock hands to set times from o\'clock through to 5-minute intervals', file: 'maths-ks1-telling-time.html' },
+        { name: 'Coin Counter', desc: 'Recognise and count UK coins to make amounts with a virtual purse', file: 'maths-ks1-money-counter.html' },
+        { name: 'Fraction Explorers', desc: 'Split shapes into equal parts, shade fractions, and discover equivalences', file: 'maths-ks1-fractions-intro.html' },
+        { name: 'Measurement Explorer', desc: 'Compare lengths with a draggable ruler and weigh items on a balance scale', file: 'maths-ks1-measurement.html' }
+      ]},
+      { label: 'KS2', apps: [
+        { name: 'Fractions, Decimals & Percentages', desc: 'Convert between fractions, decimals and percentages with linked visual representations', file: 'maths-ks2-fractions-decimals-percentages.html' },
+        { name: 'Area & Perimeter Explorer', desc: 'Draw rectangles and compound shapes on a grid to calculate area and perimeter', file: 'maths-ks2-area-perimeter.html' },
+        { name: 'Angle Explorer', desc: 'Drag rays to form angles, measure with a protractor, and classify by type', file: 'maths-ks2-angle-measurer.html' },
+        { name: 'Coordinates & Translation', desc: 'Plot points on a coordinate grid, translate shapes and reflect in axes', file: 'maths-ks2-coordinates.html' },
+        { name: 'Statistics Graph Builder', desc: 'Enter data and generate bar charts, pictograms, pie charts and line graphs with mean, median, mode and range', file: 'maths-ks2-statistics.html' }
+      ]},
       { label: 'KS3', apps: [
         { name: 'Probability Simulator', desc: 'Interactive probability experiments', file: 'maths-probability-simulator.html' },
         { name: 'Sequences & Series Explorer', desc: 'Arithmetic, geometric and Fibonacci sequences with nth term and visual patterns', file: 'maths-sequences-series.html' },
