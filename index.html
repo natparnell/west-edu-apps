@@ -107,6 +107,31 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .subject-heading:hover {
+    color: #e07020;
+  }
+
+  .subject-heading .collapse-arrow {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: #c9c0b5;
+    transition: transform 0.2s;
+  }
+
+  .subject-heading:hover .collapse-arrow {
+    color: #e07020;
+  }
+
+  .subject-group.collapsed .collapse-arrow {
+    transform: rotate(-90deg);
+  }
+
+  .subject-group.collapsed .subject-body {
+    display: none;
   }
 
   .subject-heading .subject-icon {
@@ -121,13 +146,49 @@
   }
 
   .subject-heading .subject-count {
-    margin-left: auto;
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 400;
     color: #a0896e;
-    background: #f3ede4;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
+    font-size: 0.75rem;
+  }
+
+  .ks-group {
+    margin-bottom: 1rem;
+  }
+
+  .ks-heading {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #8b7355;
+    margin-bottom: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    background: #f5f0e8;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .ks-heading .ks-label {
+    background: #e8ddd0;
+    color: #6b5744;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .ks-heading .ks-count {
+    font-weight: 400;
+    color: #a0896e;
+    font-size: 0.7rem;
+    margin-left: auto;
+  }
+
+  .ks-empty {
+    padding: 0.75rem 1rem;
+    color: #c9c0b5;
+    font-size: 0.75rem;
+    font-style: italic;
   }
 
   .app-cards {
@@ -275,21 +336,30 @@ const eduApps = [
     icon: '\u{1F4D0}',
     color: '#2563eb',
     bg: '#dbeafe',
-    apps: [
-      { name: 'Probability Simulator', desc: 'Interactive probability experiments', file: 'maths-probability-simulator.html' },
-      { name: 'Quadratic Function Explorer', desc: 'Explore quadratic functions and their graphs', file: 'maths-quadratic-function-explorer.html' },
-      { name: 'Significance & Confidence Intervals', desc: 'Interactive demo of statistical significance, confidence intervals and sample size effects', file: 'maths-significance-confidence.html' },
-      { name: 'SUVAT Equations', desc: 'Interactive SUVAT equations demo with animations, equation finder and wordy exam problems', file: 'maths-suvat-equations.html' },
-      { name: 'Binomial Distribution', desc: 'Interactive binomial distribution explorer with worked examples', file: 'maths-binomial-distribution.html' },
-      { name: 'Trigonometric Functions Explorer', desc: 'Drag angle on unit circle with linked sine, cosine and tangent graphs', file: 'maths-trigonometry-explorer.html' },
-      { name: 'Vectors Visualiser', desc: 'Drag 2D vector arrows for addition, subtraction and scalar multiplication', file: 'maths-vectors-visualiser.html' },
-      { name: 'Normal Distribution Explorer', desc: 'Interactive bell curve with draggable z-score boundaries and shaded areas', file: 'maths-normal-distribution.html' },
-      { name: 'Simultaneous Equations Visualiser', desc: 'Adjust coefficients to see two lines move and intersection point update', file: 'maths-simultaneous-equations.html' },
-      { name: 'Sequences & Series Explorer', desc: 'Arithmetic, geometric and Fibonacci sequences with nth term and visual patterns', file: 'maths-sequences-series.html' },
-      { name: 'Geometric Transformations Explorer', desc: 'Apply translations, rotations, reflections and enlargements on a coordinate grid', file: 'maths-transformations-explorer.html' },
-      { name: 'Gradient & Area Under a Curve', desc: 'Explore gradient at any point and area under a curve between adjustable bounds', file: 'maths-graph-calculus.html' },
-      { name: 'Differentiation from First Principles', desc: 'Visualise secant to tangent as h approaches zero with step-by-step algebraic working', file: 'maths-differentiation-first-principles.html' },
-      { name: 'Indefinite Integration', desc: 'Learn and practise antiderivatives with worked examples, family of curves and + C', file: 'maths-indefinite-integration.html' }
+    keystages: [
+      { label: 'EYFS', apps: [] },
+      { label: 'KS1', apps: [] },
+      { label: 'KS2', apps: [] },
+      { label: 'KS3', apps: [
+        { name: 'Probability Simulator', desc: 'Interactive probability experiments', file: 'maths-probability-simulator.html' },
+        { name: 'Sequences & Series Explorer', desc: 'Arithmetic, geometric and Fibonacci sequences with nth term and visual patterns', file: 'maths-sequences-series.html' },
+        { name: 'Geometric Transformations Explorer', desc: 'Apply translations, rotations, reflections and enlargements on a coordinate grid', file: 'maths-transformations-explorer.html' },
+        { name: 'Simultaneous Equations Visualiser', desc: 'Adjust coefficients to see two lines move and intersection point update', file: 'maths-simultaneous-equations.html' }
+      ]},
+      { label: 'KS4', apps: [
+        { name: 'Quadratic Function Explorer', desc: 'Explore quadratic functions and their graphs', file: 'maths-quadratic-function-explorer.html' },
+        { name: 'Trigonometric Functions Explorer', desc: 'Drag angle on unit circle with linked sine, cosine and tangent graphs', file: 'maths-trigonometry-explorer.html' },
+        { name: 'Vectors Visualiser', desc: 'Drag 2D vector arrows for addition, subtraction and scalar multiplication', file: 'maths-vectors-visualiser.html' }
+      ]},
+      { label: 'KS5', apps: [
+        { name: 'Significance & Confidence Intervals', desc: 'Interactive demo of statistical significance, confidence intervals and sample size effects', file: 'maths-significance-confidence.html' },
+        { name: 'SUVAT Equations', desc: 'Interactive SUVAT equations demo with animations, equation finder and wordy exam problems', file: 'maths-suvat-equations.html' },
+        { name: 'Binomial Distribution', desc: 'Interactive binomial distribution explorer with worked examples', file: 'maths-binomial-distribution.html' },
+        { name: 'Normal Distribution Explorer', desc: 'Interactive bell curve with draggable z-score boundaries and shaded areas', file: 'maths-normal-distribution.html' },
+        { name: 'Gradient & Area Under a Curve', desc: 'Explore gradient at any point and area under a curve between adjustable bounds', file: 'maths-graph-calculus.html' },
+        { name: 'Differentiation from First Principles', desc: 'Visualise secant to tangent as h approaches zero with step-by-step algebraic working', file: 'maths-differentiation-first-principles.html' },
+        { name: 'Indefinite Integration', desc: 'Learn and practise antiderivatives with worked examples, family of curves and + C', file: 'maths-indefinite-integration.html' }
+      ]}
     ]
   },
   {
@@ -454,24 +524,55 @@ const eduApps = [
   }
 ];
 
+function countGroupApps(group) {
+  if (group.keystages) return group.keystages.reduce((n, ks) => n + ks.apps.length, 0);
+  return group.apps.length;
+}
+
+function renderAppCards(apps, group) {
+  let html = '';
+  apps.forEach(app => {
+    html += `<a class="app-card" href="apps/${app.file}" target="_blank" data-name="${app.name.toLowerCase()}" data-desc="${app.desc.toLowerCase()}">`;
+    html += `<span class="app-icon" style="background:${group.bg};color:${group.color}">${group.icon}</span>`;
+    html += `<span class="app-info"><h3>${app.name}</h3><p>${app.desc}</p></span>`;
+    html += `<span class="open-arrow">&#8250;</span>`;
+    html += '</a>';
+  });
+  return html;
+}
+
 function renderEduApps() {
   const container = document.getElementById('edu-apps');
   let html = '';
   eduApps.forEach(group => {
-    html += `<div class="subject-group" data-subject="${group.subject}">`;
-    html += `<div class="subject-heading">`;
+    const count = countGroupApps(group);
+    html += `<div class="subject-group collapsed" data-subject="${group.subject}">`;
+    html += `<div class="subject-heading" onclick="this.parentElement.classList.toggle('collapsed')">`;
     html += `<span class="subject-icon" style="background:${group.bg};color:${group.color}">${group.icon}</span>`;
-    html += `${group.subject}`;
-    html += `<span class="subject-count">${group.apps.length}</span>`;
+    html += `${group.subject} <span class="subject-count">(${count})</span>`;
+    html += `<span class="collapse-arrow">&#9660;</span>`;
     html += `</div>`;
-    html += '<div class="app-cards">';
-    group.apps.forEach(app => {
-      html += `<a class="app-card" href="apps/${app.file}" target="_blank">`;
-      html += `<span class="app-icon" style="background:${group.bg};color:${group.color}">${group.icon}</span>`;
-      html += `<span class="app-info"><h3>${app.name}</h3><p>${app.desc}</p></span>`;
-      html += `<span class="open-arrow">&#8250;</span>`;
-      html += '</a>';
-    });
+    html += '<div class="subject-body">';
+
+    if (group.keystages) {
+      group.keystages.forEach(ks => {
+        html += '<div class="ks-group">';
+        html += `<div class="ks-heading"><span class="ks-label">${ks.label}</span><span class="ks-count">${ks.apps.length} app${ks.apps.length !== 1 ? 's' : ''}</span></div>`;
+        if (ks.apps.length > 0) {
+          html += '<div class="app-cards">';
+          html += renderAppCards(ks.apps, group);
+          html += '</div>';
+        } else {
+          html += '<div class="ks-empty">No apps yet — coming soon</div>';
+        }
+        html += '</div>';
+      });
+    } else {
+      html += '<div class="app-cards">';
+      html += renderAppCards(group.apps, group);
+      html += '</div>';
+    }
+
     html += '</div></div>';
   });
   container.innerHTML = html;
@@ -485,15 +586,22 @@ function filterApps(query) {
   document.querySelectorAll('.subject-group').forEach(group => {
     let groupVisible = false;
     group.querySelectorAll('.app-card').forEach(card => {
-      const name = card.querySelector('h3').textContent.toLowerCase();
-      const desc = card.querySelector('p').textContent.toLowerCase();
+      const name = (card.dataset.name || card.querySelector('h3').textContent).toLowerCase();
+      const desc = (card.dataset.desc || card.querySelector('p').textContent).toLowerCase();
       const match = !q || name.includes(q) || desc.includes(q);
       card.classList.toggle('hidden', !match);
       if (match) groupVisible = true;
     });
     group.classList.toggle('hidden', !groupVisible);
-    if (groupVisible) anyVisible = true;
+    if (groupVisible) {
+      anyVisible = true;
+      if (q) group.classList.remove('collapsed');
+    }
   });
+
+  if (!q) {
+    document.querySelectorAll('.subject-group').forEach(g => g.classList.add('collapsed'));
+  }
 
   noResults.style.display = anyVisible || !q ? 'none' : 'block';
 }
