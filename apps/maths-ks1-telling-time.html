@@ -51,6 +51,7 @@ svg.clock{width:100%;height:100%;filter:drop-shadow(0 4px 12px rgba(0,0,0,.1))}
   <div class="top-bar">
     <div class="score-box">Score: <span id="score">0</span> / <span id="total">0</span></div>
     <div class="level-btns">
+      <button class="level-btn" data-level="0" onclick="setLevel(0)">Free Play</button>
       <button class="level-btn active" data-level="1" onclick="setLevel(1)">O'clock</button>
       <button class="level-btn" data-level="2" onclick="setLevel(2)">Half past</button>
       <button class="level-btn" data-level="3" onclick="setLevel(3)">Quarter</button>
@@ -70,6 +71,8 @@ svg.clock{width:100%;height:100%;filter:drop-shadow(0 4px 12px rgba(0,0,0,.1))}
         <!-- hands -->
         <line class="hand-hour" id="hourHand" x1="160" y1="160" x2="160" y2="85"/>
         <line class="hand-minute" id="minuteHand" x1="160" y1="160" x2="160" y2="50"/>
+        <!-- invisible overlay to capture all drag events -->
+        <circle id="dragZone" cx="160" cy="160" r="150" fill="transparent" style="cursor:pointer"/>
         <circle class="hand-cap" cx="160" cy="160" r="8"/>
       </svg>
     </div>
@@ -123,10 +126,10 @@ function updateHands(){
   const hAngle=(currentH%12)*30+currentM*0.5-90;
   const mr=mAngle*Math.PI/180, hr=hAngle*Math.PI/180;
   const mh=document.getElementById('minuteHand'),hh=document.getElementById('hourHand');
-  mh.setAttribute('x2',cx+100*Math.cos(mr));
-  mh.setAttribute('y2',cy+100*Math.sin(mr));
-  hh.setAttribute('x2',cx+65*Math.cos(hr));
-  hh.setAttribute('y2',cy+65*Math.sin(hr));
+  const mx=cx+100*Math.cos(mr),my=cy+100*Math.sin(mr);
+  const hx=cx+65*Math.cos(hr),hy=cy+65*Math.sin(hr);
+  mh.setAttribute('x2',mx); mh.setAttribute('y2',my);
+  hh.setAttribute('x2',hx); hh.setAttribute('y2',hy);
   // digital
   const dh=currentH===0?12:(currentH>12?currentH-12:currentH);
   document.getElementById('digitalTime').textContent=String(dh).padStart(2,'0')+':'+String(currentM).padStart(2,'0');
@@ -159,10 +162,38 @@ function getAngle(e){
   return a;
 }
 
-document.getElementById('minuteHand').addEventListener('mousedown',e=>{e.preventDefault();dragging='minute';});
-document.getElementById('minuteHand').addEventListener('touchstart',e=>{e.preventDefault();dragging='minute';},{passive:false});
-document.getElementById('hourHand').addEventListener('mousedown',e=>{e.preventDefault();dragging='hour';});
-document.getElementById('hourHand').addEventListener('touchstart',e=>{e.preventDefault();dragging='hour';},{passive:false});
+function pickHand(e){
+  e.preventDefault();
+  const rect=svg.getBoundingClientRect();
+  const sx=rect.width/320,sy=rect.height/320;
+  const ex=(e.clientX||e.touches[0].clientX)-rect.left;
+  const ey=(e.clientY||e.touches[0].clientY)-rect.top;
+  const px=ex/sx, py=ey/sy;
+  // get endpoints of each hand
+  const hh=document.getElementById('hourHand');
+  const mh=document.getElementById('minuteHand');
+  const hx=parseFloat(hh.getAttribute('x2')), hy=parseFloat(hh.getAttribute('y2'));
+  const mx=parseFloat(mh.getAttribute('x2')), my=parseFloat(mh.getAttribute('y2'));
+  // distance from click to each hand's tip
+  const dh=Math.hypot(px-hx,py-hy);
+  const dm=Math.hypot(px-mx,py-my);
+  // also check distance to midpoint of each hand
+  const dhm=Math.hypot(px-(cx+hx)/2, py-(cy+hy)/2);
+  const dmm=Math.hypot(px-(cx+mx)/2, py-(cy+my)/2);
+  const hourDist=Math.min(dh,dhm);
+  const minDist=Math.min(dm,dmm);
+  // if hands overlap (tips within 20px), prefer hour hand
+  const handsOverlap=Math.hypot(hx-mx,hy-my)<20;
+  if(handsOverlap){
+    // hour hand is shorter, so if click is closer to centre, it's hour hand
+    const clickR=Math.hypot(px-cx,py-cy);
+    dragging=clickR<85?'hour':'minute';
+  } else {
+    dragging=hourDist<minDist?'hour':'minute';
+  }
+}
+document.getElementById('dragZone').addEventListener('mousedown',pickHand);
+document.getElementById('dragZone').addEventListener('touchstart',pickHand,{passive:false});
 
 function onMove(e){
   if(!dragging)return;
@@ -170,14 +201,7 @@ function onMove(e){
   const a=getAngle(e);
   if(dragging==='minute'){
     let m=Math.round(a/6)%60;
-    // snap based on level
-    if(level===1) m=0;
-    else if(level===2) m=(m>=15&&m<45)?30:0;
-    else if(level===3){
-      if(m<8) m=0; else if(m<23) m=15; else if(m<38) m=30; else if(m<53) m=45; else m=0;
-    } else {
-      m=Math.round(m/5)*5; if(m===60)m=0;
-    }
+    m=Math.round(m/5)*5; if(m===60)m=0;
     // detect if we crossed 12 to adjust hour
     let oldM=currentM;
     currentM=m;
@@ -214,7 +238,19 @@ function updateHighlight(){
 function setLevel(l){
   level=l;
   document.querySelectorAll('.level-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.level)===l));
-  newQuestion();
+  const isFree=l===0;
+  document.querySelector('.check-btn').style.display=isFree?'none':'';
+  document.querySelector('.new-btn').style.display=isFree?'none':'';
+  document.querySelector('.score-box').style.display=isFree?'none':'';
+  if(isFree){
+    instructions.textContent='Drag either hand to explore the clock freely';
+    feedback.textContent='';
+    currentH=12;currentM=0;
+    updateHands();updateHighlight();
+  } else {
+    document.querySelector('.score-box').style.display='';
+    newQuestion();
+  }
 }
 
 function generateTarget(){

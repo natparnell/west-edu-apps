@@ -83,11 +83,14 @@
   /* LAYOUT */
   .app-layout {
     display: grid;
-    grid-template-columns: 280px 1fr 260px;
+    grid-template-columns: 280px 1fr auto;
     grid-template-rows: 1fr;
     gap: 0;
     height: calc(100vh - 56px);
     overflow: hidden;
+  }
+  .app-layout .panel:last-child.right-open {
+    width: 260px;
   }
 
   /* PANELS */
@@ -341,6 +344,25 @@
     transition: color 0.3s;
   }
   .matrix-cell.changed { color: var(--accent); }
+  .right-panel-toggle {
+    padding: 0.6rem 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    border-bottom: 1px solid var(--grey-light);
+  }
+  .right-panel-toggle:hover { background: var(--grey-faint); }
+  .right-panel-toggle .rp-arrow {
+    font-size: 0.55rem;
+    color: var(--grey-mid);
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  .right-panel-content { display: none; }
+  .panel.right-open .right-panel-content { display: block; }
+  .panel:not(.right-open) { min-width: 0; }
 
   /* COORDINATES PANEL */
   .coord-table {
@@ -579,7 +601,7 @@
       </div>
     </div>
     <div class="info-card" style="margin-bottom:1rem;">
-      <h3>2&times;2 Transformation Matrices</h3>
+      <h3>2&times;2 Transformation Matrices <span style="font-size:0.7rem;font-weight:400;color:var(--grey-mid);">(Further Maths)</span></h3>
       <p style="margin-bottom:0.5rem;">Many transformations about the origin can be represented as 2&times;2 matrices. The new coordinates are found by multiplying the matrix by the position vector of each point.</p>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:0.6rem;">
         <div style="text-align:center;background:var(--blue-faint);padding:0.6rem;border-radius:var(--radius);">
@@ -747,11 +769,19 @@
   </div>
 
   <!-- RIGHT PANEL: Matrix + Coordinates -->
-  <div class="panel">
+  <div class="panel" id="rightPanel">
+
+    <div class="right-panel-toggle" onclick="var p=document.getElementById('rightPanel'),a=document.getElementById('rpArrow');p.classList.toggle('right-open');a.style.transform=p.classList.contains('right-open')?'rotate(90deg)':''">
+      <span id="rpArrow" class="rp-arrow">&#9654;</span>
+      <span style="font-size:0.7rem;font-weight:700;color:var(--grey-mid);text-transform:uppercase;letter-spacing:0.06em;">Transformation Matrix</span>
+      <span style="font-size:0.6rem;font-weight:400;color:var(--grey-mid);margin-left:0.15rem;">(Further Maths)</span>
+    </div>
+
+    <div class="right-panel-content">
 
     <!-- Matrix -->
     <div class="panel-section">
-      <div class="panel-title">Transformation Matrix</div>
+      <div class="panel-title">Matrix</div>
       <div class="matrix-container">
         <div class="matrix-label" id="matrix-label">About the origin</div>
         <div class="matrix-display">
@@ -818,6 +848,8 @@
         Select a transformation and adjust the controls.
       </div>
     </div>
+
+    </div><!-- end right-panel-content -->
 
   </div>
 

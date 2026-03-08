@@ -42,12 +42,18 @@ body {
 .progress-bar .score { color: #2563eb; }
 .instructions {
   text-align: center;
-  padding: 14px 20px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #5a4633;
+  padding: 18px 24px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #2563eb;
   max-width: 680px;
-  line-height: 1.5;
+  line-height: 1.4;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.12);
+  border: 3px solid #2563eb;
+  margin: 12px auto;
+  width: 100%;
 }
 .main-area {
   flex: 1;
@@ -61,26 +67,31 @@ body {
 /* Mode selector */
 .mode-selector {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 14px;
+  margin-bottom: 6px;
 }
 .mode-btn {
-  padding: 10px 18px;
-  border: 2px solid #2563eb;
-  background: #fff;
-  color: #2563eb;
+  padding: 6px 14px;
+  border: 1.5px solid #c9c0b5;
+  background: #f5f0e8;
+  color: #6b5744;
   font-family: inherit;
-  font-weight: 700;
-  font-size: 0.95rem;
-  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.78rem;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s;
 }
-.mode-btn.active, .mode-btn:hover {
-  background: #2563eb;
+.mode-btn.active {
+  background: #6b5744;
+  border-color: #6b5744;
   color: #fff;
+}
+.mode-btn:hover:not(.active) {
+  border-color: #6b5744;
+  color: #3d2e1f;
 }
 /* Measurement area */
 .measure-area {
@@ -421,13 +432,13 @@ body {
   <span class="score" id="scoreDisplay">Score: 0</span>
   <span id="levelDisplay" style="color:#3d2e1f;font-weight:600;">Level: 1</span>
 </div>
-<div class="instructions" id="instructions">Choose a mode to start measuring!</div>
 <div class="main-area" id="mainArea">
   <div class="mode-selector" id="modeSelector">
-    <button class="mode-btn" data-mode="compare" onclick="setMode('compare')">Which is Longer?</button>
-    <button class="mode-btn" data-mode="measure" onclick="setMode('measure')">How Long?</button>
+    <button class="mode-btn" data-mode="compare" onclick="setMode('compare')">Compare Lengths</button>
+    <button class="mode-btn" data-mode="measure" onclick="setMode('measure')">Measure with Ruler</button>
     <button class="mode-btn" data-mode="weight" onclick="setMode('weight')">Balance Scale</button>
   </div>
+  <div class="instructions" id="instructions">Choose a mode to start measuring!</div>
   <div id="gameContent"></div>
 </div>
 
